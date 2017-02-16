@@ -10,7 +10,7 @@ EXIT /b !errorlevel!
     SET TAG=
 
     powershell -Command "(new-object net.webclient).DownloadFile('%IZON_PS1%','%TEMP%\izon.ps1')"
-    FOR /F %%d IN ('powershell -Command "Get-Content -Raw $Env:TEMP\izon.ps1 | iex; ReadDependency-Izon(\"%1\")"') DO (
+    FOR /F %%d IN ('powershell -Command "[System.IO.File]::ReadAllText(\"$Env:TEMP\izon.ps1\") | iex; ReadDependency-Izon(\"%1\")"') DO (
         IF DEFINED URL SET TAG=%%d
         IF NOT DEFINED URL SET URL=%%d
     )

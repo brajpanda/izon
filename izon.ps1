@@ -5,7 +5,7 @@ function ConvertFromJson-Izon([object] $data) {
 }
 
 function ReadVersion-Izon() {
-  $data=Get-Content -Raw "$Env:TEMP\version.json"
+  $data=[System.IO.File]::ReadAllText("$Env:TEMP\version.json")
   return ConvertFromJson-Izon($data)
 }
 
