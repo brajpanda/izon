@@ -36,8 +36,6 @@ function __version() {
     echo "Unable to find VERSION/version.json file"
     exit 1
   fi
-
-  echo $version
 }
 
 function getVersionFile() {
