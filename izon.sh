@@ -39,3 +39,31 @@ function __version() {
 
   echo $version
 }
+
+function getVersionFile() {
+    #if needed, get the version.json that resolves dependent repos from another github repo
+  if [ ! -f "$VERSION_JSON" ]; then
+    if [[ $currentDir == *"$REPO_NAME" ]]; then
+      if [[ ! -f manifest.yml ]]; then
+        echo "We noticed you are in a directory named $REPO_NAME but the usual contents are not here, please rename the dir or do a git clone of the whole repo.  If you rename the dir, the script will get the repo."
+        exit 1
+      fi
+    fi
+    echo $VERSION_JSON_URL
+    curl -s -O $VERSION_JSON_URL
+  fi
+}
+
+function getLocalSetupFuncs() {
+  #get the predix-scripts url and branch from the version.json
+  __readDependency $PREDIX_SCRIPTS PREDIX_SCRIPTS_URL PREDIX_SCRIPTS_BRANCH
+  LOCAL_SETUP_FUNCS_URL=https://github.build.ge.com/raw/adoption/$PREDIX_SCRIPTS/$PREDIX_SCRIPTS_BRANCH/bash/scripts/local-setup-funcs.sh
+
+  if [ -f "local-setup-funcs.sh" ]; then
+    rm local-setup-funcs.sh
+  fi
+  if [ ! -f "local-setup-funcs.sh" ]; then
+    curl -s -O $LOCAL_SETUP_FUNCS_URL
+  fi
+  source local-setup-funcs.sh
+}
