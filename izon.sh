@@ -47,7 +47,7 @@ function getVersionFile() {
         exit 1
       fi
     fi
-    echo $VERSION_JSON_URL
+    #echo $VERSION_JSON_URL
     curl -s -O $VERSION_JSON_URL
   fi
 }
